@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">DetectMusicDemo</string>
+
+    <string name="nothing">Nothing is being played</string>
+</resources>
