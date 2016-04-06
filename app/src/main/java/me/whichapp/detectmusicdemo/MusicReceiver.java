@@ -3,6 +3,7 @@ package me.whichapp.detectmusicdemo;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -33,12 +34,42 @@ public class MusicReceiver extends BroadcastReceiver
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
+        printAll(intent);
         String cmd = intent.getStringExtra("command");
         Log.v(TAG, action + " / " + cmd);
-        String artist = intent.getStringExtra("artist");
-        String album = intent.getStringExtra("album");
-        String track = intent.getStringExtra("track");
-        Log.v(TAG, artist + ":" + album + ":" + track);
-        Toast.makeText(context, track, Toast.LENGTH_SHORT).show();
+
+        Toast.makeText(context, intent.getStringExtra("track"), Toast.LENGTH_SHORT).show();
     }
+
+    private void printAll(Intent intent)
+    {
+        Bundle bundle = intent.getExtras();
+
+        if(bundle == null)
+        {
+            Log.v(TAG, "Empty Bundle");
+            Log.v(TAG, intent.getAction());
+            for(String category : intent.getCategories())
+            {
+                Log.v(TAG, category);
+            }
+        }
+        else
+
+        for(String key : bundle.keySet())
+        {
+            Object ob = bundle.get(key);
+            String val;
+            if(ob != null)
+            {
+                val = ob.toString();
+            }
+            else
+            {
+                val = "null";
+            }
+            Log.v(TAG, "Key="+key+" & val="+val);
+        }
+    }
+
 }
