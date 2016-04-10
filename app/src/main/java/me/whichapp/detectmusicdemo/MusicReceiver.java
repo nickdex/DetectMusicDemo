@@ -37,6 +37,13 @@ public class MusicReceiver extends BroadcastReceiver
         printAll(intent);
         String cmd = intent.getStringExtra("command");
         Log.v(TAG, action + " / " + cmd);
+        try
+        {
+            Thread.sleep(1000 * 30);
+        } catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
 
         Toast.makeText(context, intent.getStringExtra("track"), Toast.LENGTH_SHORT).show();
     }
