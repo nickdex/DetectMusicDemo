@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="me.whichapp.detectmusicdemo">
+<manifest package="me.whichapp.detectmusicdemo"
+          xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
         android:allowBackup="true"
@@ -13,22 +13,12 @@
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="com.android.music.musicservicecommand.togglepause"/>
-                <action android:name="com.android.music.musicservicecommand.pause"/>
-                <action android:name="com.android.music.musicservicecommand.previous"/>
-                <action android:name="com.android.music.musicservicecommand.next"/>
-                <action android:name="com.android.music.metachanged"/>
-                <action android:name="com.android.music.playbackcomplete"/>
-                <action android:name="com.android.music.queuechanged"/>
                 <action android:name="com.android.music.playstatechanged"/>
+                <action android:name="com.android.music.metachanged"/>
                 <action android:name="com.musixmatch.android.lyrify.metachanged"/>
                 <action android:name="com.musixmatch.android.lyrify.playstatechanged"/>
-                <action android:name="com.musixmatch.android.lyrify.queuechanged"/>
-
-                <action android:name="com.bsbportal.music.queuechanged"/>
                 <action android:name="com.bsbportal.music.playstatechanged"/>
                 <action android:name="com.bsbportal.music.metachanged"/>
-
                 <action android:name="com.saavn.android.musicplayer.action.ACTION_MEDIA_PLAY"/>
                 <action android:name="com.saavn.android.musicplayer.action.ACTION_MEDIA_PAUSE"/>
                 <action android:name="com.saavn.android.radio.musicplayer.action.ACTION_MEDIA_PLAY"/>
@@ -37,15 +27,24 @@
                 <action android:name="com.saavn.android.musicplayer.action.NEXT"/>
                 <action android:name="com.saavn.android.radio.musicplayer.action.NEXT"/>
                 <action android:name="com.saavn.android.musicplayer.action.external.NEXT"/>
-
                 <action android:name="com.gaana.metachanged"/>
                 <action android:name="com.gaana.queuechanged"/>
                 <action android:name="com.gaana.playstatechanged"/>
-
-
             </intent-filter>
         </receiver>
 
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <service
+            android:name=".MyIntentService"
+            android:exported="false">
+        </service>
     </application>
 
 </manifest>

@@ -4,14 +4,20 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.util.concurrent.TimeUnit;
+
 public class MusicReceiver extends BroadcastReceiver
 {
-    private static final String TAG = "MusicReceiver";
+
 
     public static final String TOGGLEPAUSE_ACTION = "com.android.music.musicservicecommand.togglepause";
+
+    private static final String TAG = "MusicReceiver";
     public static final String PAUSE_ACTION = "com.android.music.musicservicecommand.pause";
     public static final String PREVIOUS_ACTION = "com.android.music.musicservicecommand.previous";
     public static final String NEXT_ACTION = "com.android.music.musicservicecommand.next";
@@ -31,15 +37,18 @@ public class MusicReceiver extends BroadcastReceiver
     {
     }
 
+
     @Override
-    public void onReceive(Context context, Intent intent) {
+    public void onReceive(final Context context, Intent intent)
+    {
         String action = intent.getAction();
-        printAll(intent);
+//        printAll(intent);
         String cmd = intent.getStringExtra("command");
         Log.v(TAG, action + " / " + cmd);
 
-        Toast.makeText(context, intent.getStringExtra("track"), Toast.LENGTH_SHORT).show();
+        context.startService(new Intent(context, MyIntentService.class));
     }
+
 
     private void printAll(Intent intent)
     {
