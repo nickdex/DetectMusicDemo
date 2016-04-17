@@ -2,31 +2,29 @@ package me.whichapp.detectmusicdemo;
 
 import android.app.Service;
 import android.content.Intent;
-import android.media.AudioManager;
 import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
 
-import java.util.concurrent.TimeUnit;
 
 public class MyIntentService extends Service
 {
 
+    private static final int SECONDS = 10;
+
     private static final String TAG = "MyIntentService";
-    /**
-     * Creates an IntentService.  Invoked by your subclass's constructor.
-     *
-     * @param name Used to name the worker thread, important only for debugging.
-     */
+    public static final String TRACK_KEY = "track";
+
+    public static final String PLAYING_KEY = "playing";
 
     private static boolean flag = false;
 
-    private String track;
+    private static String track;
 
 
-    CountDownTimer timer = new CountDownTimer(30 * 1000, 1000)
+    CountDownTimer timer = new CountDownTimer(SECONDS * 1000, 1000)
     {
         @Override
         public void onTick(long millisUntilFinished)
@@ -46,11 +44,15 @@ public class MyIntentService extends Service
     @Override
     public int onStartCommand(Intent intent, int flags, int startId)
     {
-        AudioManager manager = (AudioManager) getSystemService(AUDIO_SERVICE);
-        if(manager.isMusicActive())
+        if(intent.getBooleanExtra(PLAYING_KEY, false))
         {
-            track = intent.getStringExtra("track");
+            track = intent.getStringExtra(TRACK_KEY);
             onHandleIntent();
+        }
+        else
+        {
+            Log.d(TAG, "Music Paused");
+            timer.cancel();
         }
         return Service.START_STICKY;
     }
