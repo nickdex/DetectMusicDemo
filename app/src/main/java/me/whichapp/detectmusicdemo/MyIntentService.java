@@ -2,8 +2,10 @@ package me.whichapp.detectmusicdemo;
 
 import android.app.Service;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.CountDownTimer;
 import android.os.IBinder;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
@@ -14,7 +16,7 @@ public class MyIntentService extends Service
 
     private static final int SECONDS = 10;
 
-    private static final String TAG = "MyIntentService";
+    private static final String TAG = "MyService";
     public static final String TRACK_KEY = "track";
 
     public static final String PLAYING_KEY = "playing";
@@ -44,15 +46,31 @@ public class MyIntentService extends Service
     @Override
     public int onStartCommand(Intent intent, int flags, int startId)
     {
-        if(intent.getBooleanExtra(PLAYING_KEY, false))
+        if(intent != null)
         {
-            track = intent.getStringExtra(TRACK_KEY);
-            onHandleIntent();
-        }
-        else
-        {
-            Log.d(TAG, "Music Paused");
-            timer.cancel();
+            if(intent.getBooleanExtra(PLAYING_KEY, false))
+            {
+                track = intent.getStringExtra(TRACK_KEY);
+                if(true)
+                {
+                    Cursor cursor = getContentResolver().query(
+                            MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                            new String[]{MediaStore.Audio.Media.DISPLAY_NAME},
+                            MediaStore.Audio.Media._ID + " = ?", new String[]{String.valueOf( intent.getLongExtra("id", -1))}, null);
+                    if(cursor != null && cursor.getCount() > 0)
+                    {
+                        cursor.moveToNext();
+                        track = cursor.getString(0);
+                        cursor.close();
+                    }
+                }
+                onHandleIntent();
+            }
+            else
+            {
+                Log.d(TAG, "Music Paused");
+                timer.cancel();
+            }
         }
         return Service.START_STICKY;
     }
