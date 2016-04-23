@@ -46,13 +46,15 @@ public class MyIntentService extends Service
     @Override
     public int onStartCommand(Intent intent, int flags, int startId)
     {
+        Log.v(TAG, "Music Detect Service start");
         if(intent != null)
         {
             if(intent.getBooleanExtra(PLAYING_KEY, false))
             {
                 track = intent.getStringExtra(TRACK_KEY);
-                if(track.isEmpty() || track == null)
+                if(track == null || track.isEmpty())
                 {
+                    Log.i(TAG, "Empty track name from intent, loading filename");
                     Cursor cursor = getContentResolver().query(
                             MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
                             new String[]{MediaStore.Audio.Media.DISPLAY_NAME},
@@ -72,7 +74,7 @@ public class MyIntentService extends Service
                 timer.cancel();
             }
         }
-        return Service.START_STICKY;
+        return super.onStartCommand(intent, flags, startId);
     }
 
     @Nullable
@@ -86,10 +88,11 @@ public class MyIntentService extends Service
     protected void onHandleIntent()
     {
         if(!flag)
-        timer.start();
+            timer.start();
         else
         {
             timer.cancel();
+            flag = false;
             timer.start();
         }
     }

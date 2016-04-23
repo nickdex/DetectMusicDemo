@@ -13,6 +13,7 @@
         <receiver
             android:name=".MusicReceiver"
             android:enabled="true"
+            android:process=":remote"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.android.music.playstatechanged"/>
