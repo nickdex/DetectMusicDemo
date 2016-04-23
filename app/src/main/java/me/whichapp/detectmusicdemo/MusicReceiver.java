@@ -45,15 +45,10 @@ public class MusicReceiver extends BroadcastReceiver
 //        printAll(intent);
         String cmd = intent.getStringExtra("command");
         Log.v(TAG, action + " / " + cmd);
-        try
-        {
-            Thread.sleep(1000 * 30);
-        } catch (InterruptedException e)
-        {
-            e.printStackTrace();
-        }
-
-        context.startService(new Intent(context, MyIntentService.class));
+        printAll(intent);
+        Intent serviceIntent = new Intent(context, MyIntentService.class);
+        serviceIntent.putExtras(intent);
+        context.startService(serviceIntent);
     }
 
 
