@@ -14,7 +14,7 @@ import android.widget.Toast;
 public class MyIntentService extends Service
 {
 
-    private static final int SECONDS = 10;
+    private static final int SECONDS = 30;
 
     private static final String TAG = "MyService";
     public static final String TRACK_KEY = "track";
