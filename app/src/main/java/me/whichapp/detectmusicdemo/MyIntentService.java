@@ -51,7 +51,7 @@ public class MyIntentService extends Service
             if(intent.getBooleanExtra(PLAYING_KEY, false))
             {
                 track = intent.getStringExtra(TRACK_KEY);
-                if(true)
+                if(track.isEmpty() || track == null)
                 {
                     Cursor cursor = getContentResolver().query(
                             MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
